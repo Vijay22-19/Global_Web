@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" placeholder="Enter you name" id="name">
+    <input type="number" name="" id="age" placeholder="Enter you age">
+    <button onclick="vote()">Submit</button>
+    <button><a href="cal.html">If Eligible Click here</a></button>
+    <p id="Result"></p>
+
+    <script>
+   function vote(){
+    var name = document.getElementById("name").value;
+    var age = document.getElementById("age").value;
+    var result = document.getElementById("Result");
+    // alert(name);
+
+    if(age>18){
+        result.innerHTML ="You are eligibele";
+    }else{
+       result.innerHTML = "You are still a child";
+    }
+   }
+    </script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Love Calculator</title>
+
+  
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card: linear-gradient(135deg,#1f2a44 0%, #243253 100%);
+      --accent: #ff6b81;
+      --accent-2: #ff9478;
+      --muted: #98a0b3;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --success: #60e0a6;
+    }
+
+    /* Page layout */
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,100,120,0.06), transparent 8%),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(100,150,255,0.035), transparent 6%),
+                  var(--bg);
+      color:#e6eef8;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Card */
+    .card{
+      width:100%;
+      max-width:520px;
+      background: var(--card);
+      border-radius:18px;
+      padding:26px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow: 0 6px 18px rgba(255,107,129,0.18);
+      transform: rotate(-10deg);
+    }
+    .logo svg{filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25))}
+
+    h1{font-size:20px;margin:0}
+    p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+    /* Form */
+    form{
+      margin-top:14px;
+      display:grid;
+      gap:12px;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+    }
+    .row .field{flex:1}
+
+    .field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    input[type="text"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg,var(--glass),var(--glass-2));
+      color: #eaf2ff;
+      outline:none;
+      font-size:14px;
+      transition:box-shadow .18s, transform .12s;
+    }
+    input[type="text"]::placeholder{color: rgba(230,238,248,0.42)}
+
+    input[type="text"]:focus{
+      box-shadow: 0 6px 20px rgba(102, 51, 102, 0.18);
+      transform: translateY(-1px);
+      border-color: rgba(255,107,129,0.35);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;
+      padding:12px 16px;
+      border-radius:12px;
+      border:0;
+      cursor:pointer;
+      font-weight:600;
+      font-size:14px;
+      box-shadow: 0 8px 30px rgba(255,107,129,0.16);
+      transition:transform .12s, box-shadow .12s;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn:disabled{opacity:0.5;cursor:not-allowed}
+
+    /* Result card */
+    .result{
+      margin-top:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .circle{
+      width:78px;
+      height:78px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      font-size:20px;
+      color:white;
+      background: linear-gradient(135deg, rgba(255,107,129,0.95), rgba(255,148,120,0.88));
+      box-shadow:0 8px 30px rgba(255,107,129,0.15);
+      position:relative;
+      overflow:hidden;
+    }
+    .circle .pulse{
+      position:absolute;
+      width:160%;
+      height:160%;
+      border-radius:999px;
+      left:-30%;
+      top:-30%;
+      transform: scale(0.9);
+      opacity:0.12;
+      background: radial-gradient(circle at center, white 0%, transparent 40%);
+      animation: pulse 2.6s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(0.9);opacity:0.12}
+      50%{transform:scale(1.08);opacity:0.06}
+      100%{transform:scale(0.9);opacity:0.12}
+    }
+
+    .res-text{
+      flex:1;
+    }
+    .res-text h3{margin:0;font-size:16px}
+    .res-text p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* footer / small tips */
+    .tips{margin-top:14px;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media (max-width:560px){
+      .card{padding:18px}
+      .logo{width:48px;height:48px}
+      .circle{width:64px;height:64px;font-size:18px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== HTML (structure) ====== -->
+  <main class="card" role="main" aria-labelledby="title">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <!-- small heart icon -->
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 21s-7.5-4.87-10-8.22C-0.5 6.5 5 3 7 6c1.5 2.3 5 1.5 5 1.5s3.5.8 5-1.5c2-3 7.5.5 5 6.78C19.5 16.13 12 21 12 21z" fill="white" opacity="0.12"/>
+          <path d="M12.1 20.6s-6.5-4.3-8.8-7.3C0.1 7.4 5 3.8 7 6.5c1.5 2.2 4.9 1.6 5 1.6.08 0 .1 0 .1 0 .1 0 3.5.7 5-1.6 2-2.7 6.9-.9 6.7 6.8-2.2 3-8.1 7.4-8.1 7.4z" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <h1 id="title">Love Calculator</h1>
+        <p class="lead">Enter two names — get a playful compatibility score ❤️</p>
+      </div>
+    </header>
+
+    <form id="loveForm" onsubmit="return false;">
+      <div class="row">
+        <div class="field">
+          <label for="nameA">Your Name</label>
+          <input id="nameA" type="text" placeholder="e.g. Gundi" autocomplete="off" required />
+        </div>
+        <div class="field">
+          <label for="nameB">Partner's Name</label>
+          <input id="nameB" type="text" placeholder="e.g. Gunda" autocomplete="off" required />
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
+        <button id="calcBtn" class="btn" type="button" aria-live="polite">Calculate ❤</button>
+        <button id="resetBtn" class="btn" type="button" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600;">Reset</button>
+      </div>
+
+      <!-- result -->
+      <div id="resultArea" class="result" style="display:none" aria-hidden="true">
+        <div class="circle" id="scoreCircle">
+          <div class="pulse" aria-hidden="true"></div>
+          <span id="scoreText">0%</span>
+        </div>
+
+        <div class="res-text">
+          <h3 id="pairText">Name A ❤ Name B</h3>
+          <p id="messageText">Compatibility message will appear here.</p>
+        </div>
+      </div>
+
+      
+    </form>
+  </main>
+
+  <!-- ====== Tiny JS (uses Math.random) ====== -->
+  <script>
+    const nameA = document.getElementById('nameA');
+    const nameB = document.getElementById('nameB');
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const resultArea = document.getElementById('resultArea');
+    const scoreText = document.getElementById('scoreText');
+    const pairText = document.getElementById('pairText');
+    const messageText = document.getElementById('messageText');
+    const scoreCircle = document.getElementById('scoreCircle');
+
+    function funMessage(score){
+      if(score >= 90) return "💍 Soulmates! Sparks everywhere!";
+      if(score >= 70) return "😍 Strong chemistry — try a coffee date!";
+      if(score >= 50) return "😊 Good vibes, worth exploring.";
+      if(score >= 30) return "🙂 Maybe friends first — time helps.";
+      return "😅 Oops — more practice in communication!";
+    }
+
+    function colorForScore(score){
+      if(score >= 90) return "linear-gradient(135deg,#ffd4da,#ff6b81)";
+      if(score >= 70) return "linear-gradient(135deg,#ffcfb3,#ff9478)";
+      if(score >= 50) return "linear-gradient(135deg,#b2ffd6,#60e0a6)";
+      if(score >= 30) return "linear-gradient(135deg,#d6e7ff,#9fbfff)";
+      return "linear-gradient(135deg,#d9d9d9,#bfbfbf)";
+    }
+
+    calcBtn.addEventListener('click', () => {
+      let a = nameA.value.trim();
+      let b = nameB.value.trim();
+
+      if(!a || !b){
+        alert('Please enter both names.');
+        return;
+      }
+
+      // small deterministic-ish boost so same name pairs feel similar
+      const seed = (a + b).toLowerCase().replace(/\s+/g,'').split('')
+                     .reduce((acc,ch)=> acc + ch.charCodeAt(0), 0);
+
+      // base random percent using Math.random + seed influence
+      let rand = Math.random(); // 0..1
+      let raw = Math.floor(rand * 101); // 0..100
+
+      // mix with name-seed to make it slightly repeatable
+      let score = (raw + seed % 101) % 101;
+
+      // animate counting up
+      resultArea.style.display = 'flex';
+      resultArea.setAttribute('aria-hidden','false');
+      pairText.textContent = `${a} ❤ ${b}`;
+      messageText.textContent = "Calculating...";
+
+      scoreText.textContent = '0%';
+      scoreCircle.style.background = colorForScore(0);
+
+      let current = 0;
+      const step = score > 60 ? 2 : 1;
+      const interval = setInterval(() => {
+        current += step;
+        if(current >= score){
+          current = score;
+          clearInterval(interval);
+          messageText.textContent = funMessage(score);
+          scoreCircle.style.background = colorForScore(score);
+        }
+        scoreText.textContent = current + '%';
+      }, 10);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      nameA.value = '';
+      nameB.value = '';
+      resultArea.style.display = 'none';
+      resultArea.setAttribute('aria-hidden','true');
+    });
+
+    // pressing Enter on inputs triggers calculation
+    [nameA,nameB].forEach(inp => {
+      inp.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          calcBtn.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

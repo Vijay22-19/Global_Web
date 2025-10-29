@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ಕನ್ನಡ ರಾಜ್ಯೋತ್ಸವ</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black; /* black background */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Noto Sans Kannada', Arial, sans-serif;
+    }
+
+    .flag {
+      width: 300px;
+      height: 200px;
+      border: 3px solid white;
+    }
+
+    .top {
+      height: 50%;
+      background-color: #FFD100; /* Yellow */
+    }
+
+    .bottom {
+      height: 50%;
+      background-color: #E2211C; /* Red */
+    }
+
+    marquee {
+      position: fixed;
+      bottom: 100px;
+      width: 100%;
+      background-color: black;
+      color: #FFD100; /* bright yellow text */
+      font-size: 36px;
+      font-weight: bold;
+      padding: 10px 0;
+      letter-spacing: 1px;
+      text-shadow: 
+        0 0 10px #FFD100,
+       
+        0 0 40px #FFD100;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flag">
+    <div class="top"></div>
+    <div class="bottom"></div>
+  </div>
+
+  <marquee direction="left" scrollamount="8">
+    ಕನ್ನಡ ರಾಜ್ಯೋತ್ಸವದ ಶುಭಾಶಯಗಳು 
+  </marquee>
+
+</body>
+</html>

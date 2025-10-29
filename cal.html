@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Love Calcuator</h1>
+    <input type="text" name="" id="name" placeholder="ENter your name">
+    <input type="text" name="" id="pname" placeholder="Enter your partner name">
+    <button onclick="cal()">Calculate</button>
+    <p id="res"></p>
+
+    <script>
+        function cal(){
+            var name = document.getElementById("name").value;
+            var pname = document.getElementById("pname").value;
+            var res = document.getElementById("res");
+            var result = Math.random()*101;
+
+            res.innerHTML = result;
+
+        }
+    </script>
+</body>
+</html>
